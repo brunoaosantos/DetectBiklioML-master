@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "33635442763",
+    "firebase_url": "https://detectbiklioml.firebaseio.com",
+    "project_id": "detectbiklioml",
+    "storage_bucket": "detectbiklioml.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33635442763:android:132c9b129d6a60f787adce",
+        "android_client_info": {
+          "package_name": "no.uio.ifi.detectbiklioml"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33635442763-rcbl33nqn30uqn9eaecbbgse7mdmgvdu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGOWhJhLxuulu0qPuJhfOnBfor6xUWI_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33635442763-rcbl33nqn30uqn9eaecbbgse7mdmgvdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

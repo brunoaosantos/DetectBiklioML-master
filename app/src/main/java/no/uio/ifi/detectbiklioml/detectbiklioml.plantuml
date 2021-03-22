@@ -1,0 +1,131 @@
+@startuml
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.AccelerationListener {
+        {static} - ONE_SECOND_NANOS : long
+        - lastEventTimestamp : long
+        + onAccuracyChanged()
+        + onSensorChanged()
+        - calculateAccelerationMagnitude()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.Classifier {
+        {static} - context : Context
+        {static} - evaluator : Evaluator
+        - features : Map<String, Float>
+        {static} - instance : Classifier
+        {static} - modelLoaded : boolean
+        - rawAccelerations : List<Float>
+        - rawLocations : List<Location>
+        ~ addAcceleration()
+        ~ addLocation()
+        ~ classify()
+        ~ getFeature()
+        {static} ~ getInstance()
+        {static} ~ loadModelAsync()
+        {static} ~ setContext()
+        - Classifier()
+        - calculateFeatures()
+        {static} - createEvaluator()
+        - initializeValues()
+        {static} - loadModel()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.MainActivity {
+        + toggleBtnTrip : ToggleButton
+        - backgroundServiceIntent : Intent
+        {static} - bundle : Bundle
+        - tripsList : List<Trip>
+        + refreshTripList()
+        + toggleStartTrip()
+        - startService()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.Trip {
+        - bike : boolean
+        - distance : float
+        - endDate : Date
+        - id : String
+        - inProgress : boolean
+        - modeId : int
+        - startDate : Date
+        - timeToClassify : long
+        + getDistance()
+        + getEndDate()
+        + getId()
+        + getModeId()
+        + getStartDate()
+        + getTimeToClassify()
+        + isBike()
+        + isInProgress()
+        + setBike()
+        + setDistance()
+        + setId()
+        + setModeId()
+        + setTimeToClassify()
+        ~ finish()
+        ~ start()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.TripManager {
+        {static} - ACCEL_SAMPLING_PERIOD : long
+        {static} - GPS_SAMPLING_INTERVAL : long
+        - accelerometer : Sensor
+        - locationCallback : LocationCallback
+        - locationProviderClient : FusedLocationProviderClient
+        - locationRequest : LocationRequest
+        - sensorManager : SensorManager
+        {static} - tripInProgress : boolean
+        ~ TripManager()
+        ~ startTrip()
+        ~ stopTrip()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.TripManager.LocationListener {
+        + onLocationResult()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.TripRepository {
+        {static} - settings : FirebaseFirestoreSettings
+        {static} ~ delete()
+        {static} ~ fetch()
+        {static} ~ save()
+    }
+  }
+  
+
+  namespace no.uio.ifi.detectbiklioml {
+    class no.uio.ifi.detectbiklioml.TripService {
+        {static} - serviceStarted : boolean
+        - tripBroadcastReceiver : BroadcastReceiver
+        + onStartCommand()
+    }
+  }
+  
+
+  no.uio.ifi.detectbiklioml.TripManager o-- no.uio.ifi.detectbiklioml.AccelerationListener : accelerationListener
+  no.uio.ifi.detectbiklioml.TripManager o-- no.uio.ifi.detectbiklioml.Trip : trip
+  no.uio.ifi.detectbiklioml.TripManager +-down- no.uio.ifi.detectbiklioml.TripManager.LocationListener
+  no.uio.ifi.detectbiklioml.TripService o-- no.uio.ifi.detectbiklioml.TripManager : tripManager
+
+
+
+@enduml
