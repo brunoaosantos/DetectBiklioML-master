@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationServices;
 import java.util.concurrent.TimeUnit;
 
 
+
 /**
  * Class responsible for managing and collecting trip data.
  */
@@ -27,8 +28,8 @@ class TripManager {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private Trip currentTrip = null;
-    private static final long ACCEL_SAMPLING_PERIOD = TimeUnit.SECONDS.toMicros(1);
-    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(10); // 10 seconds in MILIseconds
+    private static final long ACCEL_SAMPLING_PERIOD = TimeUnit.SECONDS.toMicros(5);
+    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(360000); // 6 minutes in MILIseconds
     private static boolean tripInProgress = false;
 
     TripManager(Context context) {

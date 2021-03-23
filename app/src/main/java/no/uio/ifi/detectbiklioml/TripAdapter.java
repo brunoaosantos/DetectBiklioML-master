@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -51,7 +52,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
         ImageView tripIcon = viewHolder.tripIcon;
         if (!trip.isBike()) {
-            Drawable unknownMode = context.getResources().getDrawable(R.drawable.ic_unknown);
+            //deprecated
+            //Drawable unknownMode = context.getResources().getDrawable(R.drawable.ic_unknown);
+            Drawable unknownMode = ContextCompat.getDrawable(context.getApplicationContext(),R.drawable.ic_unknown);
             tripIcon.setImageDrawable(unknownMode);
         }
 

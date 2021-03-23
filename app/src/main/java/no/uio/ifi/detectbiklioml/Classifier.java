@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -21,8 +22,14 @@ import org.jpmml.evaluator.ProbabilityDistribution;
 import org.jpmml.evaluator.TargetField;
 import org.jpmml.model.SerializationUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,10 +71,12 @@ class Classifier {
 
     void addLocation(Location location) {
         rawLocations.add(location);
+        writeToFile(new String[] {location.toString()});
     }
 
     void addAcceleration(float acceleration) {
         rawAccelerations.add(acceleration);
+        writeToFile(new String[] {String.valueOf(acceleration)});
     }
 
     /**
@@ -266,6 +275,38 @@ class Classifier {
             put("distance", (float) 0); // in meters
             put("estimatedSpeed", (float) 1);
         }};
+    }
+
+    /**
+     * Method to record the data in a file
+     */
+
+    public void writeToFile(String[] probabilities) {
+        if(isExternalStorageWritable()) {
+            File externalStorageDir = Environment.getExternalStorageDirectory();
+            File myFile = new File(externalStorageDir, "biklioRF.txt");
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+
+            try {
+                String toWrite = Arrays.toString(probabilities)
+                        .replace("[","")
+                        .replace("]","") +
+                        ", " + formatter.format(date) + ", " + "\n\r";
+                long fileLength = myFile.length();
+                RandomAccessFile raf = new RandomAccessFile(myFile, "rw");
+                raf.seek(fileLength);
+                raf.writeBytes(toWrite);
+                raf.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean isExternalStorageWritable() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
 }

@@ -3,7 +3,6 @@ package no.uio.ifi.detectbiklioml;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -11,7 +10,6 @@ import androidx.core.content.PermissionChecker;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -52,9 +50,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         createNotificationChannel();
-
-        // Asks for writing permission
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         mAdapter = new TripAdapter(tripsList);
         recyclerView.setAdapter(mAdapter);
@@ -201,22 +196,6 @@ public class MainActivity extends AppCompatActivity {
             channel.setDescription("DetectBiklioML Notification Channel");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    /**
-     * Asks for writing permission
-     */
-    public void checkPermission(String permission){
-        String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        int check = ContextCompat.checkSelfPermission(this, permission);
-
-        if (check != PackageManager.PERMISSION_GRANTED) {
-            //if the app is not allowed to write in the external storage it will ask the user to give permission
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    1);
         }
     }
 
