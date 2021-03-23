@@ -29,7 +29,7 @@ class TripManager {
     private LocationCallback locationCallback;
     private Trip currentTrip = null;
     private static final long ACCEL_SAMPLING_PERIOD = TimeUnit.SECONDS.toMicros(5);
-    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(360000); // 6 minutes in MILIseconds
+    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(360); // 6 minutes in MILIseconds
     private static boolean tripInProgress = false;
 
     TripManager(Context context) {
