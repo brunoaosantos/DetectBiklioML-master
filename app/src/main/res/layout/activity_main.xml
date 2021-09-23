@@ -27,13 +27,30 @@
         android:id="@+id/tglBtnTrip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:checked="false"
+        android:onClick="toggleStartTrip"
         android:text="ToggleButton"
         android:textOff="Start trip"
         android:textOn="Stop trip"
-        android:onClick="toggleStartTrip"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_view"
         app:layout_constraintEnd_toEndOf="@+id/recycler_view" />
+
+    <Button
+        android:id="@+id/sampling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="32dp"
+        android:onClick="updateSamplingInterval"
+        android:text="5"
+        app:layout_constraintBottom_toTopOf="@+id/tglBtnTrip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,12 +28,14 @@ public class TripService extends Service {
     private static final String TAG = "TripService";
     private static boolean serviceStarted = false;
     private TripManager tripManager;
+    private int samplingInt;
     private BroadcastReceiver tripBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case "TRIP_STARTED":
-                        tripManager.startTrip();
+                        samplingInt = intent.getIntExtra("samplingInterval",5000);
+                        tripManager.startTrip(samplingInt);
                         break;
                     case "TRIP_ENDED":
                         tripManager.stopTrip();

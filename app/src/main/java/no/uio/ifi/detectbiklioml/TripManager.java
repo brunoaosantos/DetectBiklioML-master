@@ -28,8 +28,8 @@ class TripManager {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private Trip currentTrip = null;
-    private static final long ACCEL_SAMPLING_PERIOD = TimeUnit.SECONDS.toMicros(5);
-    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(360); // 6 minutes in MILIseconds
+    private static long ACCEL_SAMPLING_PERIOD = TimeUnit.SECONDS.toMillis(5);
+    private static final long GPS_SAMPLING_INTERVAL = TimeUnit.SECONDS.toMillis(300); // 5 minutes in MILIseconds
     private static boolean tripInProgress = false;
 
     TripManager(Context context) {
@@ -50,7 +50,9 @@ class TripManager {
     /**
      * Starts recording a trip
      */
-    void startTrip() {
+    void startTrip(int samplingInterval) {
+        ACCEL_SAMPLING_PERIOD = samplingInterval;
+        AccelerationListener.setSampling(samplingInterval/1000);
         sensorManager.registerListener(accelerationListener, accelerometer, (int) ACCEL_SAMPLING_PERIOD, (int) ACCEL_SAMPLING_PERIOD);
         Log.d(TAG, "Started accelerometer");
         locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());

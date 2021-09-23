@@ -10,6 +10,7 @@ import androidx.core.content.PermissionChecker;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     public ToggleButton toggleBtnTrip;
     public RecyclerView recyclerView;
     public static final String CHANNEL_ID = "MainActivityNotificationChannel";
+
+    private int samplingInterval = 5000;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -130,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
     public void toggleStartTrip(View view) {
         if (((ToggleButton) view).isChecked()) {
             showNotification("Trip started!");
-            sendBroadcast(new Intent("TRIP_STARTED"));
+            Intent intent = new Intent("TRIP_STARTED");
+            intent.putExtra("samplingInterval", samplingInterval);
+            sendBroadcast(intent);
             updateServiceNotification("A trip is being recorded");
         } else {
             sendBroadcast(new Intent("TRIP_ENDED"));
@@ -199,5 +205,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public void updateSamplingInterval(View view) {
+        if (!toggleBtnTrip.isChecked()) {
+            Button samplingButton = (Button)findViewById(R.id.sampling);
+            if (samplingInterval == 5000) {
+                samplingInterval = 10000;
+                samplingButton.setText("10");
+            }
+            else if (samplingInterval == 10000) {
+                samplingInterval = 30000;
+                samplingButton.setText("30");
+            }
+            else if (samplingInterval == 30000) {
+                samplingInterval = 60000;
+                samplingButton.setText("60");
+            }
+            else {
+                samplingInterval = 5000;
+                samplingButton.setText("5");
+            }
+        }
+    }
 }
 

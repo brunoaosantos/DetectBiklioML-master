@@ -14,18 +14,17 @@ public class AccelerationListener implements SensorEventListener {
 
     private static String TAG = "AccelerationListener";
     private long lastEventTimestamp = System.nanoTime();
-    private static long FIVE_SECOND_NANOS = TimeUnit.SECONDS.toNanos(5);
+    private static long SECOND_NANOS = TimeUnit.SECONDS.toNanos(5);  //initialize with base number
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         long timestampDifference = Math.abs(sensorEvent.timestamp - lastEventTimestamp);
-
         // It might happen to get readings sooner than 1s after the last one.
         // Update lastEventTimestamp with the current event timestamp if the previous one happened more than a second ago.
-        if (timestampDifference >= FIVE_SECOND_NANOS) {
+        if (timestampDifference >= SECOND_NANOS) {
             lastEventTimestamp = sensorEvent.timestamp;
         } else {
-            // Just return if the last event was less than a second ago.
+            // Just return if the last event was less than the defined sampling time.
             return;
         }
 
@@ -47,5 +46,9 @@ public class AccelerationListener implements SensorEventListener {
         return (float) Math.sqrt(Math.pow(sensorEvent.values[0], 2) +
                        Math.pow(sensorEvent.values[1], 2) +
                        Math.pow(sensorEvent.values[2], 2));
+    }
+
+    static void setSampling(int samplingInterval) {
+        SECOND_NANOS = TimeUnit.SECONDS.toNanos(samplingInterval);
     }
 }
